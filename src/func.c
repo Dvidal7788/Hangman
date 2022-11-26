@@ -1,6 +1,7 @@
-#include "../include/header.h"
+#include <header.h>
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// FUNCTION DEFINTIONS:
+
 void display_wrong(char wrong_guesses[], int num_wrong)
 {
     /* This function called in display_board() */
@@ -12,12 +13,10 @@ void display_wrong(char wrong_guesses[], int num_wrong)
         {
             if (wrong_guesses[i] != 0)
             {
-                if (num_wrong == i + 1)
-                {
+                if (num_wrong == i + 1) {
                     printf("%c", wrong_guesses[i]);
                 }
-                else
-                {
+                else {
                     printf("%c, ", wrong_guesses[i]);
                 }
             }
@@ -25,6 +24,7 @@ void display_wrong(char wrong_guesses[], int num_wrong)
     }
 
 }
+
 char *inf_buffer(char *prompt)
 {
     printf("%s", prompt);
@@ -63,6 +63,7 @@ char *inf_buffer(char *prompt)
 
     return s;
 }
+
 void print_board(char correct_guesses[], char p1_input[], char s[], int l, char wrong_guesses[], int num_wrong)
 {
     // DISPLAY WRONG guesses under hangman
@@ -91,6 +92,7 @@ void print_board(char correct_guesses[], char p1_input[], char s[], int l, char 
     printf("\n\n");
     printf("Body parts remaining: %i\n", 6-num_wrong);
 }
+
 void display_hangman(int wrong)
 {
 // printf("_|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|");
@@ -126,8 +128,13 @@ printf("\n___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|__
     }
 }
 
-void dont_scroll_up(void)
+void display_title(bool scroll)
 {
-    for (int i = 0; i < 45; i++){printf("\n");}
-    printf("  ~~~~~~~~~~ DON'T SCROLL UP, THAT'S CHEATING!!! ~~~~~~~~~~~~\n");
+    if (scroll) {
+        for (int i = 0; i < 45; i++) {printf("\n");}
+        printf("   ~~~~~~~~~~ DON'T SCROLL UP, THAT'S CHEATING!!! ~~~~~~~~~~~~\n\n");
+    }
+
+    printf("\t\t\t~~~ HANGMAN ~~~\n");
+    return;
 }

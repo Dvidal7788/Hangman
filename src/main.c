@@ -1,55 +1,44 @@
-#include "../include/header.h"
+// August 2022
+
+#include <header.h>
 
 int main(void)
 {
 
-    printf("\t\t\t~~~ HANGMAN ~~~\n");
+    display_title(false);
     display_hangman(6);
 
     // --- PLAYER 1 ---
-    char s[200];
-
     char *p1_input = inf_buffer("\nPLAYER 1, Enter name/phrase/word: ");
 
-    printf("%s\n", p1_input);
-
-    strcpy(s, p1_input);
     int l = strlen(p1_input);
-    int punc = 0;
+
+    char s[l+1];
+    strcpy(s, p1_input);
 
     // FIND PUNCTUATION
-    for (int i = 0; i < l; i++)
-    {
-        if (!isalpha(p1_input[i]))
-        {
+    int punc = 0;
+    for (int i = 0; i < l; i++) {
+        if (!isalpha(p1_input[i])) {
             punc++;
         }
     }
 
     // Initialize correct/wrong guesses arrays
     char correct_guesses[l - punc + 1];
-    for (int i = 0; i < l - punc + 1; i++)
-    {
-        correct_guesses[i] = 0;
-    }
+    for (int i = 0; i < l - punc + 1; i++) {correct_guesses[i] = 0;}
 
     char wrong_guesses[7];
-    for (int i = 0; i < 7; i++)
-    {
-        wrong_guesses[i] = 0;
-    }
+    for (int i = 0; i < 7; i++) {wrong_guesses[i] = 0;}
 
     //                          ------------- PLAYER 2 -------------
-    int num_correct = 0;
-    int num_wrong = 0;
+    int num_correct = 0, num_wrong = 0;
     char guess;
 
     do
     {
-        dont_scroll_up();
-        printf("\t\t\t~~~ HANGMAN ~~~\n\n");
-
         // DISPLAY BOARD & HANGMAN
+        display_title(true);
         display_hangman(num_wrong);
         print_board(correct_guesses, p1_input, s, l, wrong_guesses, num_wrong);
 
@@ -60,7 +49,7 @@ int main(void)
             guessed_correctly_already = false;
             printf("\n\nPlayer 2, Enter letter: ");
             scanf("%c", &guess);
-            // for (int c = getchar(); c != '\n' || c != EOF; c = getchar()){}
+            // for (int c = getchar(); c != '\n' && c != EOF; c = getchar());
             while (getchar() != '\n');
 
             // check if already guessed correctly
@@ -105,12 +94,12 @@ int main(void)
     if (num_wrong >= 6)
     {
         printf("\t\t\tYOU LOSE!!!!!\n");
-        printf("\t\t\tThe word/phrase was: %s", p1_input);
+        printf("\n\t\tThe word/phrase was: %s\n", p1_input);
     }
     else
     {
         printf("\n\t\t\t YOU WON!!!!!\n");
-        printf("\n\t\t\t \\( ﾟヮﾟ)/\n\n");
+        printf("\n\t\t    \\( ﾟヮﾟ)/  \\( ﾟヮﾟ)/\n\n");
         printf("Congrats! You correctly guessed: '%s'\n\n", p1_input);
     }
 
