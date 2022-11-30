@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 void display_hangman(int);
-void print_board(char correct_guesses[], char input[], char s[], int l, char wrong_guesses[], int num_wrong);
+void print_board(char p1_input[], char correct_guesses[], char wrong_guesses[], int num_wrong);
 char *inf_buffer(char *prompt);
 void display_wrong(char wrong_guesses[], int num_wrong);
 void display_title(bool scroll);

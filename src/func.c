@@ -4,15 +4,18 @@
 
 void display_wrong(char wrong_guesses[], int num_wrong)
 {
-    /* This function called in display_board() */
+    /* This function is called in print_board() */
 
+    // Only print if they have guesses wrong already
     if (num_wrong > 0)
     {
         printf("\t\t\tWrong guesses: ");
         for (int i = 0; i < 6; i++)
         {
+            // Iterate through wrong_guesses[]
             if (wrong_guesses[i] != 0)
             {
+                // Don't print ',' if printing last in current state of list
                 if (num_wrong == i + 1) {
                     printf("%c", wrong_guesses[i]);
                 }
@@ -30,7 +33,7 @@ char *inf_buffer(char *prompt)
     printf("%s", prompt);
 
     // Allocate initial char for user input
-    char *s = malloc(sizeof(int8_t));
+    char *s = malloc(sizeof(char));
     if (s == NULL) {
         printf("Error: failed to allocate buffer for user input\n");
         exit(1);
@@ -52,7 +55,7 @@ char *inf_buffer(char *prompt)
         }
         else {
             // Reallocate
-            s = realloc(s, sizeof(int8_t)*(i+2));
+            s = realloc(s, sizeof(char)*(i+2));
                 if (s == NULL) {
                     printf("Error: failed to reallocate buffer for user input\n");
                     exit(3);
@@ -64,19 +67,20 @@ char *inf_buffer(char *prompt)
     return s;
 }
 
-void print_board(char correct_guesses[], char p1_input[], char s[], int l, char wrong_guesses[], int num_wrong)
+void print_board(char p1_input[], char correct_guesses[], char wrong_guesses[], int num_wrong)
 {
     // DISPLAY WRONG guesses under hangman
     display_wrong(wrong_guesses, num_wrong);
 
     printf("\nCorrect Guesses:\n\n");
+    int l = strlen(p1_input);
     for (int i = 0; i < l; i++)
     {
-        if (s[i] == ' ' )
+        if (p1_input[i] == ' ' )
         {
             printf("  ");
         }
-        else if (tolower(correct_guesses[i]) == tolower(s[i]))
+        else if (isalpha(correct_guesses[i]))
         {
             printf("%c ", p1_input[i]);
         }

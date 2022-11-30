@@ -11,22 +11,23 @@ int main(void)
     // --- PLAYER 1 ---
     char *p1_input = inf_buffer("\nPLAYER 1, Enter name/phrase/word: ");
 
-    int l = strlen(p1_input);
-
-    char s[l+1];
-    strcpy(s, p1_input);
-
     // FIND PUNCTUATION
     int punc = 0;
-    for (int i = 0; i < l; i++) {
+    int len = strlen(p1_input);
+    for (int i = 0; i < len; i++) {
         if (!isalpha(p1_input[i])) {
             punc++;
         }
     }
 
     // Initialize correct/wrong guesses arrays
-    char correct_guesses[l - punc + 1];
-    for (int i = 0; i < l - punc + 1; i++) {correct_guesses[i] = 0;}
+    char correct_guesses[len+1];
+    for (int i = 0; i < len+1; i++) {
+        if (!isalpha(p1_input[i])) {
+            correct_guesses[i] = p1_input[i];
+        }
+        else correct_guesses[i] = 0;
+    }
 
     char wrong_guesses[7];
     for (int i = 0; i < 7; i++) {wrong_guesses[i] = 0;}
@@ -40,7 +41,7 @@ int main(void)
         // DISPLAY BOARD & HANGMAN
         display_title(true);
         display_hangman(num_wrong);
-        print_board(correct_guesses, p1_input, s, l, wrong_guesses, num_wrong);
+        print_board(p1_input, correct_guesses, wrong_guesses, num_wrong);
 
         // USER INPUT:
         bool guessed_correctly_already;
@@ -53,10 +54,8 @@ int main(void)
             while (getchar() != '\n');
 
             // check if already guessed correctly
-            for (int i = 0; i < l - punc + 1; i++)
-            {
-                if (tolower(guess) == tolower(correct_guesses[i]))
-                {
+            for (int i = 0; i < len - punc + 1; i++) {
+                if (tolower(guess) == tolower(correct_guesses[i])) {
                     guessed_correctly_already = true;
                     printf("You already correctly guessed: %c", correct_guesses[i]);
                 }
@@ -66,9 +65,9 @@ int main(void)
 
         // CHECK IF GUESS IS CORRECT - UPDATE correct_guesses[] OR wrong_guesses[] accordingly
         bool guessed_correct = false;
-        for (int i = 0; i < l; i++)
+        for (int i = 0; i < len; i++)
         {
-            if (tolower(guess) == tolower(s[i]))
+            if (tolower(guess) == tolower(p1_input[i]))
             {
                 num_correct++;
                 correct_guesses[i] = p1_input[i];
@@ -83,12 +82,12 @@ int main(void)
 
 
     }
-    while (num_correct < l - punc && num_wrong < 6);
+    while (num_correct < len - punc && num_wrong < 6);
 
 
 
     // ----- END SCREEN -----
-    print_board(correct_guesses, p1_input, s, l, wrong_guesses, num_wrong);
+    print_board(p1_input, correct_guesses, wrong_guesses, num_wrong);
     display_hangman(num_wrong);
 
     if (num_wrong >= 6)
